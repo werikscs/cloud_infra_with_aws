@@ -8,7 +8,7 @@
     "test:coverage": "vitest run --coverage --passWithNoTests",
     "build": "rm -rf ./build && tsc -p tsconfig.prod.json",
     "start:dev": "npx nodemon",
-    "start:build": "npm run build && node build/index.js"
+    "start:build": "npm run build && node build/server.js"
   },
   "author": "",
   "license": "ISC",
