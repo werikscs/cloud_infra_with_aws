@@ -1,0 +1,52 @@
+volumes:
+  cloud-infra-with-aws__database-data-dev:
+
+networks:
+  cloud-infra-with-aws__network-dev:
+    driver: bridge
+
+services:
+  app:
+    container_name: cloud-infra-with-aws__app-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 3010:${APP_PORT_DEV}
+    networks:
+      - cloud-infra-with-aws__network-dev
+
+  database:
+    container_name: cloud-infra-with-aws__db-dev
+    image: postgres:alpine
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER_DEV}
+      - POSTGRES_PASSWORD=${DB_PASSWORD_DEV}
+      - POSTGRES_DB=${DB_NAME_DEV}
+    ports:
+      - ${DB_PORT_DEV}:5432
+    volumes:
+      - cloud-infra-with-aws__database-data-dev:/var/lib/postgresql/data
+    networks:
+      - cloud-infra-with-aws__network-dev
+
+  pgadmin:
+    container_name: cloud-infra-with-aws__pgadmin-dev
+    image: dpage/pgadmin4
+    restart: always
+    env_file:
+      - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PG_ADMIN_EMAIL_DEV}
+      PGADMIN_DEFAULT_PASSWORD: ${PG_ADMIN_PASSWORD_DEV}
+    ports:
+      - ${PG_ADMIN_PORT_DEV}:80
+    depends_on:
+      - database
+    networks:
+      - cloud-infra-with-aws__network-dev
