@@ -6,9 +6,10 @@
     "test:once": "vitest run --passWithNoTests",
     "test:watch": "vitest --passWithNoTests",
     "test:coverage": "vitest run --coverage --passWithNoTests",
-    "build": "rm -rf ./build && tsc -p tsconfig.prod.json",
+    "build": "rm -rf ./build && tsc -p ./tsconfig.prod.json",
     "start:dev": "npx nodemon",
-    "start:build": "npm run build && node build/server.js"
+    "start:build": "npm run build && node ./build/server.js",
+    "start:prod": "node server.js"
   },
   "author": "",
   "license": "ISC",
