@@ -1,0 +1,14 @@
+###
+GET http://host.docker.internal:3000/healthcheck
+
+###
+GET http://host.docker.internal:3000/users
+
+###
+POST http://host.docker.internal:3000/users
+Content-Type: application/json
+
+{
+  "name": "Alice",
+  "email": "alice@prisma.io"
+}

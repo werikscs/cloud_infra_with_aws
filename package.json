@@ -26,11 +26,13 @@
     "eslint-plugin-prettier": "^5.2.1",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
+    "prisma": "^5.18.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5"
   },
   "dependencies": {
+    "@prisma/client": "^5.18.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2"
   }
