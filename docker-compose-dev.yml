@@ -15,6 +15,7 @@ services:
       - .env
     ports:
       - ${APP_PORT_DEV}:3000
+      - ${PRISMA_STUDIO_PORT_DEV}:5555
     networks:
       - cloud-infra-with-aws__network-dev
 
@@ -32,21 +33,5 @@ services:
       - ${DB_PORT_DEV}:5432
     volumes:
       - cloud-infra-with-aws__database-data-dev:/var/lib/postgresql/data
-    networks:
-      - cloud-infra-with-aws__network-dev
-
-  pgadmin:
-    container_name: cloud-infra-with-aws__pgadmin-dev
-    image: dpage/pgadmin4
-    restart: always
-    env_file:
-      - .env
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PG_ADMIN_EMAIL_DEV}
-      PGADMIN_DEFAULT_PASSWORD: ${PG_ADMIN_PASSWORD_DEV}
-    ports:
-      - ${PG_ADMIN_PORT_DEV}:80
-    depends_on:
-      - database
     networks:
       - cloud-infra-with-aws__network-dev

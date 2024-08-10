@@ -15,4 +15,8 @@ COPY prisma ./prisma
 COPY package*.json ./
 RUN npm install --omit=dev
 RUN npx prisma generate
-CMD ["npm","run","start:prod"]
+
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
+CMD ["./start.sh"]
