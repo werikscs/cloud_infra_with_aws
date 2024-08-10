@@ -1,10 +1,4 @@
 #!/bin/sh
-
-# Inicie a aplicação em background
-npm run start:prod &
-
-# Inicie o Prisma Studio em background, definindo a porta e o datasource
+npm run watch:container &
 npx prisma studio &
-
-# Espere todos os processos terminarem
 wait

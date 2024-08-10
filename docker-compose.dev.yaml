@@ -10,7 +10,7 @@ services:
     container_name: cloud-infra-with-aws__app-dev
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     env_file:
       - .env
     ports:
@@ -18,6 +18,13 @@ services:
       - ${PRISMA_STUDIO_PORT_DEV}:5555
     networks:
       - cloud-infra-with-aws__network-dev
+    develop:
+      watch:
+        - action: sync
+          path: ./build
+          target: /app/build
+        - action: rebuild
+          path: package.json
 
   database:
     container_name: cloud-infra-with-aws__db-dev
