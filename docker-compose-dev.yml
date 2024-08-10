@@ -14,7 +14,7 @@ services:
     env_file:
       - .env
     ports:
-      - 3010:${APP_PORT_DEV}
+      - ${APP_PORT_DEV}:3000
     networks:
       - cloud-infra-with-aws__network-dev
 
