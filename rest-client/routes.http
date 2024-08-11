@@ -1,14 +1,19 @@
-###
-GET http://host.docker.internal:3000/healthcheck
+# ports: dev 3010, prod 3000
+
+@PORT=3000
+@USER_ID=
 
 ###
-GET http://host.docker.internal:3000/users
+GET http://host.docker.internal:{{PORT}}/healthcheck
 
 ###
-GET http://host.docker.internal:3000/users/a9692a48-64b4-404b-9cba-b6a0a7c09981
+GET http://host.docker.internal:{{PORT}}/users
 
 ###
-POST http://host.docker.internal:3000/users
+GET http://host.docker.internal:{{PORT}}/users/{{USER_ID}}
+
+###
+POST http://host.docker.internal:{{PORT}}/users
 Content-Type: application/json
 
 {

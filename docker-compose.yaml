@@ -1,0 +1,34 @@
+volumes:
+  cloud-infra-with-aws__database-data-prod:
+
+networks:
+  cloud-infra-with-aws__network-prod:
+    driver: bridge
+
+services:
+  app:
+    container_name: cloud-infra-with-aws__app-prod
+    image: cloud-infra-with-aws__app-image-prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000 # http server
+    environment:
+      - DATABASE_URL=postgresql://cloud-infra-with-aws__db-user-prod:12345678@cloud-infra-with-aws__db-prod:5432/cloud-infra-with-aws__db-name-prod?schema=public
+    networks:
+      - cloud-infra-with-aws__network-prod
+
+  database:
+    container_name: cloud-infra-with-aws__db-prod
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=cloud-infra-with-aws__db-user-prod
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=cloud-infra-with-aws__db-name-prod
+    ports:
+      - 5432:5432 # db
+    volumes:
+      - cloud-infra-with-aws__database-data-prod:/var/lib/postgresql/data
+    networks:
+      - cloud-infra-with-aws__network-prod

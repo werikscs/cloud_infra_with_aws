@@ -1,26 +1,6 @@
-# Multi-stage
-
-# Stage 1: Build the app
-FROM node:20.5-alpine AS builder
+FROM node:20.5-alpine
 WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm run build:clean && npm run build:transpile
-
-# Stage 2: Create a lightweight production image
-FROM node:20.5-alpine AS final_image
-WORKDIR /app
-COPY --from=builder /app/build ./build
-COPY prisma ./prisma
-COPY package*.json ./
-RUN npm install --omit=dev
-ENV DB_HOST_DEV=cloud-infra-with-aws__db-dev
-ENV DB_PORT_DEV=5432
-ENV APP_PORT_DEV=3000
-ENV DATABASE_URL_DEV="postgresql://cloud-infra-with-aws__db-user-dev:12345678@cloud-infra-with-aws__db-dev:5432/cloud-infra-with-aws__db-name-dev?schema=public"
-RUN npx prisma generate
-
-COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
-
-CMD ["./start.sh"]
+CMD ["npm", "run", "watch:container"]

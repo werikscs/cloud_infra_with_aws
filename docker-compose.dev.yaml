@@ -8,12 +8,15 @@ networks:
 services:
   app:
     container_name: cloud-infra-with-aws__app-dev
+    image: cloud-infra-with-aws__app-image-dev
     build:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - ${APP_PORT_DEV}:3000
-      - ${PRISMA_STUDIO_PORT_DEV}:5555
+      - 3010:3000 # server
+      - 5555:5555 # prisma studio
+    environment:
+      - DATABASE_URL=postgresql://cloud-infra-with-aws__db-user-dev:12345678@cloud-infra-with-aws__db-dev:5432/cloud-infra-with-aws__db-name-dev?schema=public
     networks:
       - cloud-infra-with-aws__network-dev
     develop:
@@ -31,14 +34,12 @@ services:
     container_name: cloud-infra-with-aws__db-dev
     image: postgres:alpine
     restart: always
-    env_file:
-      - .env
     environment:
-      - POSTGRES_USER=${DB_USER_DEV}
-      - POSTGRES_PASSWORD=${DB_PASSWORD_DEV}
-      - POSTGRES_DB=${DB_NAME_DEV}
+      - POSTGRES_USER=cloud-infra-with-aws__db-user-dev
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=cloud-infra-with-aws__db-name-dev
     ports:
-      - ${DB_PORT_DEV}:5432
+      - 5432:5432 # db
     volumes:
       - cloud-infra-with-aws__database-data-dev:/var/lib/postgresql/data
     networks:
