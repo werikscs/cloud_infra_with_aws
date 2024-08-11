@@ -1,7 +1,6 @@
-const sum = (a: number, b: number) => {
-  return a + b
-}
+import request from 'supertest'
+import { app } from 'src'
 
-it('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3)
+it('should get 200 from healthcheck route', () => {
+  return request(app).get('/healthcheck').expect(200)
 })
