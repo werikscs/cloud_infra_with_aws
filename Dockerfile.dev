@@ -14,6 +14,10 @@ COPY --from=builder /app/build ./build
 COPY prisma ./prisma
 COPY package*.json ./
 RUN npm install --omit=dev
+ENV DB_HOST_DEV=cloud-infra-with-aws__db-dev
+ENV DB_PORT_DEV=5432
+ENV APP_PORT_DEV=3000
+ENV DATABASE_URL_DEV="postgresql://cloud-infra-with-aws__db-user-dev:12345678@cloud-infra-with-aws__db-dev:5432/cloud-infra-with-aws__db-name-dev?schema=public"
 RUN npx prisma generate
 
 COPY start.sh /app/start.sh

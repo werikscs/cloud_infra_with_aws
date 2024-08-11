@@ -5,10 +5,15 @@ GET http://host.docker.internal:3000/healthcheck
 GET http://host.docker.internal:3000/users
 
 ###
+GET http://host.docker.internal:3000/users/a9692a48-64b4-404b-9cba-b6a0a7c09981
+
+###
 POST http://host.docker.internal:3000/users
 Content-Type: application/json
 
 {
-  "name": "Alice",
-  "email": "alice@prisma.io"
+  "email": "email@emailcom",
+  "username": "username",
+  "nickname": "nickname",
+  "password": "1q2w3e4r5t"
 }

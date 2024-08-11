@@ -1,4 +1,3 @@
 #!/bin/sh
-npm run watch:container &
-npx prisma studio &
+npm run watch:container:build
 wait

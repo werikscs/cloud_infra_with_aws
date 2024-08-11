@@ -11,8 +11,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    env_file:
-      - .env
     ports:
       - ${APP_PORT_DEV}:3000
       - ${PRISMA_STUDIO_PORT_DEV}:5555
@@ -23,6 +21,9 @@ services:
         - action: sync
           path: ./build
           target: /app/build
+        - action: sync
+          path: ./prisma
+          target: /app/prisma
         - action: rebuild
           path: package.json
 
