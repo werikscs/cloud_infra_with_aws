@@ -1,7 +1,8 @@
 # ports: dev 3010, prod 3000
 
-@PORT=3000
-@USER_ID=
+@PORT=3010
+@USER_ID=3b168291-d869-427d-b3a3-ebdc75207aa9
+@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYjE2ODI5MS1kODY5LTQyN2QtYjNhMy1lYmRjNzUyMDdhYTkiLCJpYXQiOjE3MjM0MDk2NDUsImV4cCI6MTcyMzQzODQ0NX0._dkpgwiMtkuuL6QR7yce-QJiVXBrPFfm1RWkbbgGhHI
 
 ###
 GET http://host.docker.internal:{{PORT}}/healthcheck
@@ -17,8 +18,26 @@ POST http://host.docker.internal:{{PORT}}/users
 Content-Type: application/json
 
 {
-  "email": "email@emailcom",
-  "username": "username",
-  "nickname": "nickname",
+  "email": "email2@emailcom",
+  "username": "username2",
+  "nickname": "nickname2",
   "password": "1q2w3e4r5t"
+}
+
+###
+POST http://host.docker.internal:{{PORT}}/login
+Content-Type: application/json
+
+{
+  "email": "email@emailcom",
+  "password": "1q2w3e4r5t"
+}
+
+###
+PATCH http://host.docker.internal:{{PORT}}/users/{{USER_ID}}
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "nickname": "nickname2"
 }
