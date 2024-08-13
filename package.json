@@ -6,7 +6,7 @@
     "config:test-db": "npx prisma db push --schema prisma/schema.prisma.dev",
     "test:watch": "npm run config:test-db && vitest --passWithNoTests",
     "test:once": "npm run test:watch -- run",
-    "test:coverage": "npm run test:watch -- run --coverage",
+    "test:coverage": "npm run test:once -- --coverage",
     "build:clean": "rm -rf ./build",
     "build:transpile": "tsc -p ./tsconfig.prod.json",
     "start:prod": "node ./build/server.js",
