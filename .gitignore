@@ -3,3 +3,4 @@ build
 coverage
 .env
 tests/db
+prisma/schema.prisma.dev
