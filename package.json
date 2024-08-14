@@ -2,8 +2,9 @@
   "name": "cloud_infra_with_aws",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "update:db-test": "npx prisma db push --schema prisma/schema.prisma.dev",
+    "update:db-test": "node ./copyPrismaSchema.js && npx prisma db push --schema prisma/schema.prisma.dev",
     "test:watch": "vitest --passWithNoTests",
     "test:once": "npm run test:watch -- run",
     "test:coverage": "npm run test:once -- --coverage",

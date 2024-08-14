@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["tests","vite.config.ts"],
+  "exclude": ["tests", "vite.config.ts", "copyPrismaSchema.js"]
 }
