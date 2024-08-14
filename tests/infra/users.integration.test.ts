@@ -56,6 +56,12 @@ describe('ROUTE: Users', () => {
 
       expect(status).toBe(200)
       expect(body).toHaveLength(2)
+      expect(body[0]).toStrictEqual({
+        userId: expect.any(String),
+        email: expect.any(String),
+        username: expect.any(String),
+        nickname: expect.any(String),
+      })
     })
   })
 

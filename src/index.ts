@@ -41,8 +41,14 @@ app.post('/users', async (req, res) => {
 app.get('/users', async (req, res) => {
   await prismaClient.$connect()
   const users = await prismaClient.user.findMany()
+  const usersOutput = users.map((user) => ({
+    userId: user.userId,
+    email: user.email,
+    username: user.username,
+    nickname: user.nickname,
+  }))
   await prismaClient.$disconnect()
-  res.status(200).json(users)
+  res.status(200).json(usersOutput)
 })
 
 app.get('/users/:userId', async (req, res) => {
