@@ -5,7 +5,7 @@ export default defineConfig({
     fileParallelism: false,
     coverage: {
       provider: 'istanbul',
-      exclude: ['build', 'tests', 'copyPrismaSchema.js'],
+      exclude: ['build', 'tests', 'copyPrismaSchema.mjs'],
     },
     globals: true,
   },
