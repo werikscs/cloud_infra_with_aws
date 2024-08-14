@@ -35,14 +35,14 @@ app.post('/users', async (req, res) => {
     nickname: user.nickname,
   }
   await prismaClient.$disconnect()
-  res.status(201).json({ ...userOutput })
+  res.status(201).json(userOutput)
 })
 
 app.get('/users', async (req, res) => {
   await prismaClient.$connect()
   const users = await prismaClient.user.findMany()
   await prismaClient.$disconnect()
-  res.status(200).json({ users })
+  res.status(200).json(users)
 })
 
 app.get('/users/:userId', async (req, res) => {
@@ -52,8 +52,14 @@ app.get('/users/:userId', async (req, res) => {
       userId: req.params.userId,
     },
   })
+  const userOutput = {
+    userId: user?.userId,
+    email: user?.email,
+    username: user?.username,
+    nickname: user?.nickname,
+  }
   await prismaClient.$disconnect()
-  res.status(200).json({ user })
+  res.status(200).json(userOutput)
 })
 
 app.patch('/users/:userId', async (req, res) => {
@@ -89,5 +95,5 @@ app.post('/login', async (req, res) => {
     token,
   }
   await prismaClient.$disconnect()
-  res.status(200).json({ ...loginOutput })
+  res.status(200).json(loginOutput)
 })
