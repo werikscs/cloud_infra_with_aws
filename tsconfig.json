@@ -3,7 +3,7 @@
     "types": ["node", "vitest/globals"],
     "target": "es2016",
     "lib": ["es6"],
-    "module": "commonjs",
+    "module": "NodeNext",
     "baseUrl": "./",
     "rootDirs": ["src", "tests"],
     "resolveJsonModule": true,
@@ -15,6 +15,6 @@
     "noImplicitAny": true,
     "skipLibCheck": true
   },
-  "include": ["src", "tests", "vite.config.ts", "copyPrismaSchema.js"],
+  "include": ["src", "tests", "vite.config.mts", "copyPrismaSchema.mjs"],
   "exclude": ["node_modules", "build"]
 }
