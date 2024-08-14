@@ -4,8 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "update:db-test": "node ./copyPrismaSchema.js && npx prisma db push --schema prisma/schema.prisma.dev",
-    "test:watch": "vitest --passWithNoTests",
+    "update:test-db-schema": "node ./copyPrismaSchema.js && DATABASE_URL_TEST=\"file:../tests/db/dev.db\" npx prisma db push --schema prisma/schema.prisma.dev",
+    "test:watch": "DATABASE_URL_TEST=\"file:../tests/db/dev.db\" vitest --passWithNoTests",
     "test:once": "npm run test:watch -- run",
     "test:coverage": "npm run test:once -- --coverage",
     "build:clean": "rm -rf ./build",
