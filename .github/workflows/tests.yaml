@@ -10,9 +10,6 @@ jobs:
   run_tests:
     runs-on: ubuntu-latest
 
-    env:
-      DATABASE_URL_TEST: file:../tests/db/dev.db
-
     steps:
       - uses: actions/checkout@v3
 
@@ -24,5 +21,7 @@ jobs:
       - name: Installing dependencies
         run: npm install
 
-      - name: Running coverage tests
-        run: npm run test:coverage
+      - name: Run tests
+        run: |
+          npm run update:test-db-schema
+          npm run test:coverage
