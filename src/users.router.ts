@@ -3,6 +3,7 @@ import { hashSync } from 'bcrypt'
 import { randomUUID } from 'crypto'
 import { Router } from 'express'
 import { PrismaDbConnection } from './dbConnection'
+import { authorizationMiddleware } from './authorization.mdw'
 
 export const usersRouter = Router()
 
@@ -28,10 +29,10 @@ usersRouter.post('/', async (req, res) => {
     nickname: user.nickname,
   }
   await prismaClient.$disconnect()
-  res.status(201).json(userOutput)
+  return res.status(201).json(userOutput)
 })
 
-usersRouter.get('/', async (req, res) => {
+usersRouter.get('/', authorizationMiddleware as any, async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()
   await prismaClient.$connect()
   const users = await prismaClient.user.findMany()
@@ -42,7 +43,7 @@ usersRouter.get('/', async (req, res) => {
     nickname: user.nickname,
   }))
   await prismaClient.$disconnect()
-  res.status(200).json(usersOutput)
+  return res.status(200).json(usersOutput)
 })
 
 usersRouter.get('/:userId', async (req, res) => {
@@ -60,7 +61,7 @@ usersRouter.get('/:userId', async (req, res) => {
     nickname: user?.nickname,
   }
   await prismaClient.$disconnect()
-  res.status(200).json(userOutput)
+  return res.status(200).json(userOutput)
 })
 
 usersRouter.patch('/:userId', async (req, res) => {
@@ -76,5 +77,5 @@ usersRouter.patch('/:userId', async (req, res) => {
   //   data: req.body,
   // })
   // await prismaClient.$disconnect()
-  res.status(200).json()
+  return res.status(200).json()
 })

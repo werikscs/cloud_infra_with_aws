@@ -24,5 +24,5 @@ sessionRouter.post('/login', async (req, res) => {
     token,
   }
   await prismaClient.$disconnect()
-  res.status(200).json(loginOutput)
+  return res.status(200).json(loginOutput)
 })

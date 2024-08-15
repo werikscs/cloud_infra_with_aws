@@ -6,7 +6,12 @@ type User = {
   password: string
 }
 
-export const defaultUser: Partial<User> = {
+type UserLogin = {
+  email: string
+  password: string
+}
+
+export const defaultUser = {
   email: 'default_email@email.com',
   username: 'default_username',
   nickname: 'default_nickname',
@@ -21,5 +26,13 @@ export const createUserRoute = async (
     ...defaultUser,
     ...userData,
   })
+  return response
+}
+
+export const loginUserRoute = async (
+  httpServer: any,
+  userLoginData: UserLogin,
+) => {
+  const response = await httpServer.post('/session/login').send(userLoginData)
   return response
 }

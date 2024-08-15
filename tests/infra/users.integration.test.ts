@@ -2,7 +2,7 @@ import request from 'supertest'
 
 import { PrismaDbConnection } from '@/src/dbConnection'
 import { app } from '@/src'
-import { createUserRoute, defaultUser } from './utils'
+import { createUserRoute, defaultUser, loginUserRoute } from './utils'
 
 const httpServer = request(app)
 
@@ -37,11 +37,19 @@ describe('ROUTE: Users', async () => {
   })
 
   describe('GET /users', () => {
-    it('should return 200 and a empty list of users', async () => {
-      const { status, body } = await httpServer.get('/users')
+    it('should return 200 and a list with 1 user', async () => {
+      const createdUser = await createUserRoute(httpServer)
+      const userLogged = await loginUserRoute(httpServer, {
+        email: createdUser.body.email,
+        password: defaultUser.password,
+      })
+      const token = userLogged.body?.token
+      const { status, body } = await httpServer
+        .get('/users')
+        .set('Authorization', `Bearer ${token}`)
 
       expect(status).toBe(200)
-      expect(body).toHaveLength(0)
+      expect(body).toHaveLength(1)
     })
 
     it('should return 200 and a list of users', async () => {
@@ -56,16 +64,30 @@ describe('ROUTE: Users', async () => {
         nickname: 'nickname2',
       })
 
-      const { status, body } = await httpServer.get('/users')
+      const createdUser = await createUserRoute(httpServer)
+      const userLogged = await loginUserRoute(httpServer, {
+        email: createdUser.body.email,
+        password: defaultUser.password,
+      })
+      const token = userLogged.body?.token
+
+      const { status, body } = await httpServer
+        .get('/users')
+        .set('Authorization', `Bearer ${token}`)
 
       expect(status).toBe(200)
-      expect(body).toHaveLength(2)
+      expect(body).toHaveLength(3)
       expect(body[0]).toStrictEqual({
         userId: expect.any(String),
         email: expect.any(String),
         username: expect.any(String),
         nickname: expect.any(String),
       })
+    })
+
+    it('should return 401 when getting users without authorization', async () => {
+      const { status } = await httpServer.get('/users')
+      expect(status).toBe(401)
     })
   })
 
