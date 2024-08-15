@@ -9,7 +9,7 @@ export const usersRouter = Router()
 
 usersRouter.post('/', async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()
-  await prismaClient.$connect()
+  await PrismaDbConnection.connect()
   const hashedPassword = hashSync(req.body.password, 10)
   const userId = randomUUID()
   const userData = {
@@ -28,13 +28,13 @@ usersRouter.post('/', async (req, res) => {
     username: user.username,
     nickname: user.nickname,
   }
-  await prismaClient.$disconnect()
+  await PrismaDbConnection.disconnect()
   return res.status(201).json(userOutput)
 })
 
 usersRouter.get('/', authorizationMiddleware as any, async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()
-  await prismaClient.$connect()
+  await PrismaDbConnection.connect()
   const users = await prismaClient.user.findMany()
   const usersOutput = users.map((user) => ({
     userId: user.userId,
@@ -42,13 +42,13 @@ usersRouter.get('/', authorizationMiddleware as any, async (req, res) => {
     username: user.username,
     nickname: user.nickname,
   }))
-  await prismaClient.$disconnect()
+  await PrismaDbConnection.disconnect()
   return res.status(200).json(usersOutput)
 })
 
 usersRouter.get('/:userId', async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()
-  await prismaClient.$connect()
+  await PrismaDbConnection.connect()
   const user = await prismaClient.user.findUnique({
     where: {
       userId: req.params.userId,
@@ -60,13 +60,13 @@ usersRouter.get('/:userId', async (req, res) => {
     username: user?.username,
     nickname: user?.nickname,
   }
-  await prismaClient.$disconnect()
+  await PrismaDbConnection.disconnect()
   return res.status(200).json(userOutput)
 })
 
 usersRouter.patch('/:userId', async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()
-  await prismaClient.$connect()
+  await PrismaDbConnection.connect()
   const token = req.headers.authorization?.split(' ')[1]
   const decoded = jwt.verify(token!, `${process.env.JWT_SECRET!}`)
   console.log(decoded)
@@ -76,6 +76,6 @@ usersRouter.patch('/:userId', async (req, res) => {
   //   },
   //   data: req.body,
   // })
-  // await prismaClient.$disconnect()
+  // await PrismaDbConnection.disconnect()
   return res.status(200).json()
 })
