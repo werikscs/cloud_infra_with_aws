@@ -8,11 +8,11 @@ const httpServer = request(app)
 describe('ROUTE: Session', async () => {
   const prismaClient = await PrismaDbConnection.getClient()
   beforeAll(async () => {
-    await prismaClient.$connect()
+    await PrismaDbConnection.connect()
   })
 
   afterAll(async () => {
-    await prismaClient.$disconnect()
+    await PrismaDbConnection.disconnect()
   })
 
   beforeEach(async () => {

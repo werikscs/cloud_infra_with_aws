@@ -10,11 +10,11 @@ describe('ROUTE: Users', async () => {
   const prismaClient = await PrismaDbConnection.getClient()
 
   beforeAll(async () => {
-    await prismaClient.$connect()
+    await PrismaDbConnection.connect()
   })
 
   afterAll(async () => {
-    await prismaClient.$disconnect()
+    await PrismaDbConnection.disconnect()
   })
 
   beforeEach(async () => {
@@ -59,14 +59,17 @@ describe('ROUTE: Users', async () => {
         nickname: 'nickname2',
       })
 
-      const { token } = await loginUserRoute(httpServer)
+      const { token } = await loginUserRoute(httpServer, {
+        email: 'email1@email.com',
+        password: defaultUser.password,
+      })
 
       const { status, body } = await httpServer
         .get('/users')
         .set('Authorization', `Bearer ${token}`)
 
       expect(status).toBe(200)
-      expect(body).toHaveLength(3)
+      expect(body).toHaveLength(2)
       expect(body[0]).toStrictEqual({
         userId: expect.any(String),
         email: expect.any(String),
