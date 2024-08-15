@@ -4,6 +4,10 @@
     "module": "commonjs",
     "moduleResolution": "node10",
     "types": ["node", "vitest/globals", "vite/client"],
+    "paths": {
+      "@/*": ["./*"],
+      "@src/*": ["./src/*"]
+    },
     "esModuleInterop": true,
     "outDir": "./build",
     "allowJs": true,

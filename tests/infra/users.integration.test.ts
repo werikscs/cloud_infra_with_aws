@@ -1,7 +1,7 @@
 import request from 'supertest'
 
-import { PrismaDbConnection } from '../../src/dbConnection'
-import { app } from '../../src'
+import { PrismaDbConnection } from '@/src/dbConnection'
+import { app } from '@/src'
 import { createUserRoute, defaultUser } from './utils'
 
 const httpServer = request(app)
