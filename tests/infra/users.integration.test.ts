@@ -38,12 +38,7 @@ describe('ROUTE: Users', async () => {
 
   describe('GET /users', () => {
     it('should return 200 and a list with 1 user', async () => {
-      const createdUser = await createUserRoute(httpServer)
-      const userLogged = await loginUserRoute(httpServer, {
-        email: createdUser.body.email,
-        password: defaultUser.password,
-      })
-      const token = userLogged.body?.token
+      const { token } = await loginUserRoute(httpServer)
       const { status, body } = await httpServer
         .get('/users')
         .set('Authorization', `Bearer ${token}`)
@@ -64,12 +59,7 @@ describe('ROUTE: Users', async () => {
         nickname: 'nickname2',
       })
 
-      const createdUser = await createUserRoute(httpServer)
-      const userLogged = await loginUserRoute(httpServer, {
-        email: createdUser.body.email,
-        password: defaultUser.password,
-      })
-      const token = userLogged.body?.token
+      const { token } = await loginUserRoute(httpServer)
 
       const { status, body } = await httpServer
         .get('/users')

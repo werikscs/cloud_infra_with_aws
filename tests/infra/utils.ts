@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 type User = {
   userId: string
   email: string
@@ -31,8 +32,17 @@ export const createUserRoute = async (
 
 export const loginUserRoute = async (
   httpServer: any,
-  userLoginData: UserLogin,
+  userLoginData?: UserLogin,
 ) => {
+  if (!userLoginData) {
+    await createUserRoute(httpServer)
+    userLoginData = {
+      email: defaultUser.email,
+      password: defaultUser.password,
+    }
+  }
   const response = await httpServer.post('/session/login').send(userLoginData)
-  return response
+  return {
+    token: response.body.token,
+  }
 }
