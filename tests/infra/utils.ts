@@ -34,15 +34,20 @@ export const loginUserRoute = async (
   httpServer: any,
   userLoginData?: UserLogin,
 ) => {
+  const loginResponse = {
+    userId: '',
+    token: '',
+  }
+
   if (!userLoginData) {
-    await createUserRoute(httpServer)
+    const createdUser = await createUserRoute(httpServer)
+    loginResponse.userId = createdUser.body.userId
     userLoginData = {
       email: defaultUser.email,
       password: defaultUser.password,
     }
   }
   const response = await httpServer.post('/session/login').send(userLoginData)
-  return {
-    token: response.body.token,
-  }
+  loginResponse.token = response.body.token
+  return loginResponse
 }

@@ -46,23 +46,27 @@ usersRouter.get('/', authorizationMiddleware as any, async (req, res) => {
   return res.status(200).json(usersOutput)
 })
 
-usersRouter.get('/:userId', async (req, res) => {
-  const prismaClient = await PrismaDbConnection.getClient()
-  await PrismaDbConnection.connect()
-  const user = await prismaClient.user.findUnique({
-    where: {
-      userId: req.params.userId,
-    },
-  })
-  const userOutput = {
-    userId: user?.userId,
-    email: user?.email,
-    username: user?.username,
-    nickname: user?.nickname,
-  }
-  await PrismaDbConnection.disconnect()
-  return res.status(200).json(userOutput)
-})
+usersRouter.get(
+  '/:userId',
+  authorizationMiddleware as any,
+  async (req, res) => {
+    const prismaClient = await PrismaDbConnection.getClient()
+    await PrismaDbConnection.connect()
+    const user = await prismaClient.user.findUnique({
+      where: {
+        userId: req.params.userId,
+      },
+    })
+    const userOutput = {
+      userId: user?.userId,
+      email: user?.email,
+      username: user?.username,
+      nickname: user?.nickname,
+    }
+    await PrismaDbConnection.disconnect()
+    return res.status(200).json(userOutput)
+  },
+)
 
 usersRouter.patch('/:userId', async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()

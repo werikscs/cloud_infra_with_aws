@@ -84,18 +84,24 @@ describe('ROUTE: Users', async () => {
   describe('GET /users/:userId', () => {
     it('should return 200 and a user', async () => {
       const user = defaultUser
-      const { body } = await createUserRoute(httpServer)
+      const { token, userId } = await loginUserRoute(httpServer)
+      const gotUser = await httpServer
+        .get(`/users/${userId}`)
+        .set('Authorization', `Bearer ${token}`)
 
-      const { userId } = body
-      const { status, body: body2 } = await httpServer.get(`/users/${userId}`)
-
-      expect(status).toBe(200)
-      expect(body2).toStrictEqual({
+      expect(gotUser.status).toBe(200)
+      expect(gotUser.body).toStrictEqual({
         userId,
         email: user.email,
         username: user.username,
         nickname: user.nickname,
       })
+    })
+
+    it('should return 401 when getting user by id without authorization', async () => {
+      const createdUser = await createUserRoute(httpServer)
+      const gotUser = await httpServer.get(`/users/${createdUser.body.userId}`)
+      expect(gotUser.status).toBe(401)
     })
   })
 })
