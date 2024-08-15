@@ -1,10 +1,12 @@
 import request from 'supertest'
-import { app, prismaClient } from 'src'
+import { app } from '../../src'
+import { PrismaDbConnection } from '../../src/dbConnection'
 import { createUserRoute } from './utils'
 
 const httpServer = request(app)
 
-describe('ROUTE: Session', () => {
+describe('ROUTE: Session', async () => {
+  const prismaClient = await PrismaDbConnection.getClient()
   beforeAll(async () => {
     await prismaClient.$connect()
   })
@@ -26,7 +28,7 @@ describe('ROUTE: Session', () => {
         password: '123',
       }
       await createUserRoute(httpServer, user)
-      const { status, body } = await httpServer.post('/login').send({
+      const { status, body } = await httpServer.post('/session/login').send({
         email: user.email,
         password: user.password,
       })

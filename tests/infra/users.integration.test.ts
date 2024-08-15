@@ -1,10 +1,14 @@
 import request from 'supertest'
-import { app, prismaClient } from 'src'
+
+import { PrismaDbConnection } from '../../src/dbConnection'
+import { app } from '../../src'
 import { createUserRoute, defaultUser } from './utils'
 
 const httpServer = request(app)
 
-describe('ROUTE: Users', () => {
+describe('ROUTE: Users', async () => {
+  const prismaClient = await PrismaDbConnection.getClient()
+
   beforeAll(async () => {
     await prismaClient.$connect()
   })

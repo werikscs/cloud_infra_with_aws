@@ -1,19 +1,17 @@
 {
   "compilerOptions": {
-    "types": ["node", "vitest/globals"],
-    "target": "es2016",
-    "lib": ["es6"],
-    "module": "NodeNext",
-    "baseUrl": "./",
-    "rootDirs": ["src", "tests"],
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "outDir": "./build",
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "types": ["node", "vitest/globals", "vite/client"],
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "outDir": "./build",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "noImplicitAny": true,
-    "skipLibCheck": true
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false
   },
   "include": ["src", "tests", "vite.config.mts", "copyPrismaSchema.mjs"],
   "exclude": ["node_modules", "build"]
