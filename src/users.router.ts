@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken'
 import { hashSync } from 'bcrypt'
 import { randomUUID } from 'crypto'
 import { Router } from 'express'
@@ -68,18 +67,18 @@ usersRouter.get(
   },
 )
 
-usersRouter.patch('/:userId', async (req, res) => {
-  const prismaClient = await PrismaDbConnection.getClient()
-  await PrismaDbConnection.connect()
-  const token = req.headers.authorization?.split(' ')[1]
-  const decoded = jwt.verify(token!, `${process.env.JWT_SECRET!}`)
-  console.log(decoded)
-  // const user = await prismaClient.user.update({
-  //   where: {
-  //     userId: req.params.userId,
-  //   },
-  //   data: req.body,
-  // })
-  // await PrismaDbConnection.disconnect()
-  return res.status(200).json()
-})
+// usersRouter.patch('/:userId', async (req, res) => {
+//   const prismaClient = await PrismaDbConnection.getClient()
+//   await PrismaDbConnection.connect()
+//   const token = req.headers.authorization?.split(' ')[1]
+//   const decoded = jwt.verify(token!, `${process.env.JWT_SECRET!}`)
+//   console.log(decoded)
+//   // const user = await prismaClient.user.update({
+//   //   where: {
+//   //     userId: req.params.userId,
+//   //   },
+//   //   data: req.body,
+//   // })
+//   // await PrismaDbConnection.disconnect()
+//   return res.status(200).json()
+// })
