@@ -7,9 +7,9 @@ export const sessionRouter = Router()
 
 sessionRouter.post('/login', async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()
-  await prismaClient.$connect()
+  await PrismaDbConnection.connect()
   const { email, password } = req.body
-  const user = await prismaClient.user.findUnique({
+  const user = await prismaClient.user.findUniqueOrThrow({
     where: {
       email,
     },
@@ -23,6 +23,6 @@ sessionRouter.post('/login', async (req, res) => {
   const loginOutput = {
     token,
   }
-  await prismaClient.$disconnect()
+  await PrismaDbConnection.disconnect()
   return res.status(200).json(loginOutput)
 })
