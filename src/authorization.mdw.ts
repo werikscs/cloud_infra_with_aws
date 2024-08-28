@@ -8,7 +8,7 @@ export const AUTH_MWD_MSGS = {
 
 type Request = {
   headers: {
-    authorization: string
+    authorization?: string
   }
 }
 
