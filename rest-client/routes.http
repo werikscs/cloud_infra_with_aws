@@ -1,43 +1,46 @@
-# ports: dev 3010, prod 3000
-
+# @IP=54.166.180.168
+@IP=host.docker.internal
 @PORT=3010
-@USER_ID=3b168291-d869-427d-b3a3-ebdc75207aa9
-@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzYjE2ODI5MS1kODY5LTQyN2QtYjNhMy1lYmRjNzUyMDdhYTkiLCJpYXQiOjE3MjM0MDk2NDUsImV4cCI6MTcyMzQzODQ0NX0._dkpgwiMtkuuL6QR7yce-QJiVXBrPFfm1RWkbbgGhHI
+# @PORT=3000
+
+@baseUrl=http://{{IP}}:{{PORT}}
 
 ###
-GET http://host.docker.internal:{{PORT}}/healthcheck
+# Healthcheck
+GET {{baseUrl}}/system/healthcheck
 
 ###
-GET http://host.docker.internal:{{PORT}}/users
-
-###
-GET http://host.docker.internal:{{PORT}}/users/{{USER_ID}}
-
-###
-POST http://host.docker.internal:{{PORT}}/users
-Content-Type: application/json
-
-{
-  "email": "email2@emailcom",
-  "username": "username2",
-  "nickname": "nickname2",
-  "password": "1q2w3e4r5t"
-}
-
-###
-POST http://host.docker.internal:{{PORT}}/login
+# Create user
+# @name createUser
+POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
   "email": "email@emailcom",
-  "password": "1q2w3e4r5t"
+  "username": "user",
+  "nickname": "nick",
+  "password": "123456"
 }
 
 ###
-PATCH http://host.docker.internal:{{PORT}}/users/{{USER_ID}}
+# Login
+# @name login
+POST {{baseUrl}}/session/login
 Content-Type: application/json
-Authorization: Bearer {{TOKEN}}
 
 {
-  "nickname": "nickname2"
+  "email": "email@emailcom",
+  "password": "123456"
 }
+
+###
+# Get all users
+@authToken = {{login.response.body.token}}
+GET {{baseUrl}}/users
+Authorization: Bearer {{authToken}}
+
+###
+# Get user by id
+@userId = {{createUser.response.body.userId}}
+GET {{baseUrl}}/users/{{userId}}
+Authorization: Bearer {{authToken}}
