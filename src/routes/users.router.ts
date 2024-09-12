@@ -1,8 +1,9 @@
 import { hashSync } from 'bcrypt'
 import { randomUUID } from 'crypto'
 import { Router } from 'express'
-import { PrismaDbConnection } from './dbConnection'
-import { authorizationMiddleware } from './authorization.mdw'
+
+import { authorizationMiddleware } from '../middlewares/authorization.mdw'
+import { PrismaDbConnection } from '../PrismaDbConnection'
 
 export const usersRouter = Router()
 

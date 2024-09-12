@@ -1,24 +1,25 @@
 /* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken'
+import { HttpStatusCodes } from '../AppError'
 
 export const AUTH_MWD_MSGS = {
   MISSING_AUTHORIZATION_HEADERS: 'Missing authorization headers',
   UNAUTHORIZED: 'Unauthorized',
 }
 
-type Request = {
+export type Request = {
   headers: {
     authorization?: string
   }
 }
 
-type Response = {
-  status: (status: number) => {
+export type Response = {
+  status: (status: HttpStatusCodes) => {
     json: (data: any) => void
   }
 }
 
-type NextFunction = () => void
+export type NextFunction = () => void
 
 export const authorizationMiddleware = async (
   req: Request,
@@ -38,7 +39,9 @@ export const authorizationMiddleware = async (
   try {
     jwt.verify(token, `${process.env.JWT_SECRET}`)
   } catch (error) {
-    return res.status(401).json({ message: AUTH_MWD_MSGS.UNAUTHORIZED })
+    return res
+      .status(HttpStatusCodes.BAD_REQUEST)
+      .json({ message: AUTH_MWD_MSGS.UNAUTHORIZED })
   }
 
   next()

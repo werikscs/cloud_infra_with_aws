@@ -1,6 +1,6 @@
 import request from 'supertest'
 
-import { PrismaDbConnection } from '@/src/dbConnection'
+import { PrismaDbConnection } from '@/src/PrismaDbConnection'
 import { app } from '@/src'
 import { createUserRoute, defaultUser, loginUserRoute } from './utils'
 

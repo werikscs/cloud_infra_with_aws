@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { compare } from 'bcrypt'
 import { Router } from 'express'
-import { PrismaDbConnection } from './dbConnection'
+import { PrismaDbConnection } from '../PrismaDbConnection'
 
 export const sessionRouter = Router()
 
