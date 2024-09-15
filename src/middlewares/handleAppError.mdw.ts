@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import AppError from '../AppError'
-import { NextFunction, Request, Response } from './authorization.mdw'
+import { NextFunction } from '../http/nextFunctionType'
+import { Request } from '../http/requestType'
+import { Response } from '../http/responseType'
 
 export const handleAppError = (
   error: Error,

@@ -2,7 +2,7 @@ import { hashSync } from 'bcrypt'
 import { randomUUID } from 'crypto'
 import { Router } from 'express'
 
-import { authorizationMiddleware } from '../middlewares/authorization.mdw'
+import { handleAppAuthorization } from '../middlewares/handleAppAuthorization.mdw'
 import { PrismaDbConnection } from '../PrismaDbConnection'
 
 export const usersRouter = Router()
@@ -32,7 +32,7 @@ usersRouter.post('/', async (req, res) => {
   return res.status(201).json(userOutput)
 })
 
-usersRouter.get('/', authorizationMiddleware, async (req, res) => {
+usersRouter.get('/', handleAppAuthorization, async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()
   await PrismaDbConnection.connect()
   const users = await prismaClient.user.findMany()
@@ -46,7 +46,7 @@ usersRouter.get('/', authorizationMiddleware, async (req, res) => {
   return res.status(200).json(usersOutput)
 })
 
-usersRouter.get('/:userId', authorizationMiddleware, async (req, res) => {
+usersRouter.get('/:userId', handleAppAuthorization, async (req, res) => {
   const prismaClient = await PrismaDbConnection.getClient()
   await PrismaDbConnection.connect()
   const user = await prismaClient.user.findUnique({

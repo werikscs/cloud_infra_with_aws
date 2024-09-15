@@ -1,27 +1,16 @@
 /* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken'
-import { HttpStatusCodes } from '../AppError'
+import { Request } from '../http/requestType'
+import { Response } from '../http/responseType'
+import { NextFunction } from '../http/nextFunctionType'
+import { HttpStatusCodes } from '../http/httpStatusCodesEnum'
 
 export const AUTH_MWD_MSGS = {
   MISSING_AUTHORIZATION_HEADERS: 'Missing authorization headers',
   UNAUTHORIZED: 'Unauthorized',
 }
 
-export type Request = {
-  headers: {
-    authorization?: string
-  }
-}
-
-export type Response = {
-  status: (status: HttpStatusCodes) => {
-    json: (data: any) => void
-  }
-}
-
-export type NextFunction = () => void
-
-export const authorizationMiddleware = async (
+export const handleAppAuthorization = async (
   req: Request,
   res: Response,
   next: NextFunction,
