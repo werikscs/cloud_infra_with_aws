@@ -15,7 +15,8 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": false
+    "isolatedModules": false,
+    "resolveJsonModule": true
   },
   "include": ["src", "tests", "vite.config.mts", "copyPrismaSchema.mjs"],
   "exclude": ["node_modules", "build"]
