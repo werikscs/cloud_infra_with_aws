@@ -5,15 +5,15 @@
   "scripts": {
     "update:test-db-schema": "node ./copyPrismaSchema.mjs && DATABASE_URL_TEST=\"file:../tests/db/dev.db\" npx prisma db push --schema prisma/schema.prisma.dev",
     "test:watch": "DATABASE_URL_TEST=\"file:../tests/db/dev.db\" vitest --passWithNoTests",
-    "test:once": "npm run test:watch -- run",
+    "test:once": "NODE_ENV=testing npm run test:watch -- run",
     "test:coverage": "npm run test:once -- --coverage",
     "build:clean": "rm -rf ./build",
     "build:transpile": "tsc -p ./tsconfig.prod.json",
     "start:prod": "node ./build/server.js",
     "prisma:reset": "npx prisma migrate reset --force",
     "start:prod:container": "npm run prisma:reset && npm run start:prod",
-    "watch:local": "npx nodemon --watch ./src -e ts,js --exec \"npm run build:transpile\"",
-    "watch:container": "npm run prisma:reset && npx nodemon --watch ./build -e ts,js --watch ./prisma -e \"*\" --exec \"npm run start:prod & npx prisma studio & wait\""
+    "watch:local": "npx nodemon --watch ./src -e ts,js,json --exec \"npm run build:transpile\"",
+    "watch:container": "npm run prisma:reset && npx nodemon --watch ./build -e ts,js,json --watch ./prisma -e \"*\" --exec \"npm run start:prod & npx prisma studio & wait\""
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +25,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.1.0",
     "@types/supertest": "^6.0.2",
+    "@types/swagger-ui-express": "^4.1.6",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@vitest/coverage-istanbul": "^2.0.5",
     "eslint": "^8.57.0",
@@ -48,6 +49,7 @@
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^5.0.1"
   }
 }
