@@ -4,7 +4,7 @@ import express from 'express'
 import morgan from 'morgan'
 import swaggerUi from 'swagger-ui-express'
 
-import swaggerDocument from './documentation/swagger.json'
+import { swaggerDocument } from './documentation'
 import { handleAppError } from './middlewares/handleAppError.mdw'
 import { router } from './routes'
 
