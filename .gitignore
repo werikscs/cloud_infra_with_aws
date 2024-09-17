@@ -1,6 +1,7 @@
 node_modules
 build
 coverage
-.env
+.env.prod
+.env.dev
 tests/db
 prisma/schema.prisma.dev

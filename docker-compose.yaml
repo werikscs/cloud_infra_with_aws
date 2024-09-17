@@ -14,18 +14,19 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000 # http server
-    environment:
-      - DATABASE_URL=postgresql://cloud-infra-with-aws__db-user-prod:12345678@cloud-infra-with-aws__db-prod:5432/cloud-infra-with-aws__db-name-prod?schema=public
+    env_file:
+      - path: ./.env.prod
+        required: true
     networks:
       - cloud-infra-with-aws__network-prod
 
   database:
     container_name: cloud-infra-with-aws__db-prod
     image: postgres:alpine
-    environment:
-      - POSTGRES_USER=cloud-infra-with-aws__db-user-prod
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=cloud-infra-with-aws__db-name-prod
+    restart: always
+    env_file:
+      - path: ./.env.prod
+        required: true
     ports:
       - 5432:5432 # db
     volumes:

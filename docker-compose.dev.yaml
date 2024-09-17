@@ -15,8 +15,9 @@ services:
     ports:
       - 3010:3000 # server
       - 5555:5555 # prisma studio
-    environment:
-      - DATABASE_URL=postgresql://cloud-infra-with-aws__db-user-dev:12345678@cloud-infra-with-aws__db-dev:5432/cloud-infra-with-aws__db-name-dev?schema=public
+    env_file:
+      - path: ./.env.dev
+        required: true
     networks:
       - cloud-infra-with-aws__network-dev
     develop:
@@ -34,10 +35,9 @@ services:
     container_name: cloud-infra-with-aws__db-dev
     image: postgres:alpine
     restart: always
-    environment:
-      - POSTGRES_USER=cloud-infra-with-aws__db-user-dev
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=cloud-infra-with-aws__db-name-dev
+    env_file:
+      - path: ./.env.dev
+        required: true
     ports:
       - 5432:5432 # db
     volumes:
