@@ -5,9 +5,26 @@
     "title": "API",
     "description": "API description"
   },
+  "tags": [
+    {
+      "name": "system",
+      "description": "System operations"
+    },
+    {
+      "name": "session",
+      "description": "Operations about session"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
   "paths": {
     "/system/healthcheck": {
       "get": {
+        "tags": [
+          "system"
+        ],
         "summary": "System healthcheck",
         "description": "Check if the API is up and running",
         "responses": {
@@ -32,13 +49,18 @@
     },
     "/users": {
       "post": {
+        "tags": [
+          "user"
+        ],
         "summary": "Create user",
         "description": "Create a new user",
         "requestBody": {
+          "description": "User data",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/CreateUserRequest"
               }
             }
           }
@@ -49,26 +71,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "userId": {
-                      "type": "string",
-                      "format": "uuid"
-                    },
-                    "username": {
-                      "type": "string",
-                      "example": "john_doe"
-                    },
-                    "nickname": {
-                      "type": "string",
-                      "example": "John Doe"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "john@email.com",
-                      "format": "email"
-                    }
-                  }
+                  "$ref": "#/components/schemas/UserResponse"
                 }
               }
             }
@@ -76,6 +79,9 @@
         }
       },
       "get": {
+        "tags": [
+          "user"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -91,7 +97,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/UserResponse"
                   }
                 }
               }
@@ -102,6 +108,9 @@
     },
     "/users/{userId}": {
       "get": {
+        "tags": [
+          "user"
+        ],
         "security": [
           {
             "bearerAuth": []
@@ -126,7 +135,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/UserResponse"
                 }
               }
             }
@@ -136,9 +145,14 @@
     },
     "/session/login": {
       "post": {
+        "tags": [
+          "session"
+        ],
         "summary": "System login",
         "description": "Authenticate user and return a JWT token",
         "requestBody": {
+          "description": "User credentials",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -187,7 +201,28 @@
       }
     },
     "schemas": {
-      "User": {
+      "CreateUserRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "john_doe"
+          },
+          "nickname": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@email.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "johnDoe123"
+          }
+        }
+      },
+      "UserResponse": {
         "type": "object",
         "properties": {
           "userId": {
