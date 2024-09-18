@@ -15,8 +15,7 @@ services:
     ports:
       - 3000:3000 # http server
     env_file:
-      - path: ./.env.prod
-        required: true
+      - ./.env.prod
     networks:
       - cloud-infra-with-aws__network-prod
 
@@ -25,8 +24,7 @@ services:
     image: postgres:alpine
     restart: always
     env_file:
-      - path: ./.env.prod
-        required: true
+      - ./.env.prod
     ports:
       - 5432:5432 # db
     volumes:

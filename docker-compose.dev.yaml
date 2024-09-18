@@ -16,8 +16,7 @@ services:
       - 3010:3000 # server
       - 5555:5555 # prisma studio
     env_file:
-      - path: ./.env.dev
-        required: true
+      - ./.env.dev
     networks:
       - cloud-infra-with-aws__network-dev
     develop:
@@ -36,8 +35,7 @@ services:
     image: postgres:alpine
     restart: always
     env_file:
-      - path: ./.env.dev
-        required: true
+      - ./.env.dev
     ports:
       - 5432:5432 # db
     volumes:
