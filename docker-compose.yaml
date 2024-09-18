@@ -22,9 +22,11 @@ services:
       - cloud-infra-with-aws__network-prod
 
   database:
-    container_name: ${DATABASE_HOST}
+    container_name: cloud-infra-with-aws__db-prod
     image: postgres:alpine
     restart: always
+    env_file:
+      - .env.prod
     ports:
       - 5432:5432 # db
     volumes:
