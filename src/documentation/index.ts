@@ -19,7 +19,7 @@ export const swaggerDocument = {
     ...swaggerUserPaths,
   },
   components: {
-    swaggerSchemas,
-    swaggerSecuritySchemes,
+    schemas: { ...swaggerSchemas },
+    securitySchemes: { ...swaggerSecuritySchemes },
   },
 }
