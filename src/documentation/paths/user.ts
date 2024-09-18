@@ -9,7 +9,7 @@ export const swaggerUserPaths = {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/swaggerSchemas/CreateUserRequest' },
+            schema: { $ref: '#/components/schemas/CreateUserRequest' },
           },
         },
       },
@@ -18,7 +18,7 @@ export const swaggerUserPaths = {
           description: 'User created',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/swaggerSchemas/UserResponse' },
+              schema: { $ref: '#/components/schemas/UserResponse' },
             },
           },
         },
@@ -36,7 +36,7 @@ export const swaggerUserPaths = {
             'application/json': {
               schema: {
                 type: 'array',
-                items: { $ref: '#/components/swaggerSchemas/UserResponse' },
+                items: { $ref: '#/components/schemas/UserResponse' },
               },
             },
           },
@@ -66,7 +66,7 @@ export const swaggerUserPaths = {
           description: 'Sucessful response',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/swaggerSchemas/UserResponse' },
+              schema: { $ref: '#/components/schemas/UserResponse' },
             },
           },
         },
