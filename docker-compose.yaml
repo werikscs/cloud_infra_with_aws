@@ -20,7 +20,7 @@ services:
       - cloud-infra-with-aws__network-prod
 
   database:
-    container_name: cloud-infra-with-aws__db-prod
+    container_name: ${DATABASE_HOST}
     image: postgres:alpine
     restart: always
     env_file:
