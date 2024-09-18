@@ -2,7 +2,7 @@
 
 # Verifica se o parâmetro foi fornecido
 if [ -z "$1" ]; then
-  echo "Uso: ./build.sh SEU_REGISTRY"
+  echo "Uso: ./build_to_ecr.sh.sh SEU_REGISTRY"
   exit 1
 fi
 
