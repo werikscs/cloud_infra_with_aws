@@ -1,0 +1,11 @@
+config:
+  target: 'https://www.werikscs.com.br'
+  phases:
+    - duration: 3min
+      arrivalRate: 500
+      name: 'Escalando'
+scenarios:
+  - name: 'AWS App Healthcheck'
+    flow:
+      - get:
+          url: '/system/healthcheck'
