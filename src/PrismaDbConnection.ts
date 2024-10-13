@@ -1,27 +1,32 @@
+// infra/db/PrismaDbConnection.ts
 import { PrismaClient } from '@prisma/client'
+import { IDbConnection } from './IDbConnection'
 
-// static class to manage the connection to the database
-export class PrismaDbConnection {
-  private static prismaClient: PrismaClient
+export class PrismaDbConnection implements IDbConnection<PrismaClient> {
+  private static prismaDbConnection: PrismaDbConnection
 
-  private static getPrismaClient(): void {
-    if (!this.prismaClient) {
-      this.prismaClient = new PrismaClient()
-    }
+  private prismaClient: PrismaClient
+
+  private constructor() {
+    this.prismaClient = new PrismaClient()
   }
 
-  static async connect(): Promise<void> {
-    this.getPrismaClient()
+  async connect(): Promise<void> {
     await this.prismaClient.$connect()
   }
 
-  static async disconnect(): Promise<void> {
-    this.getPrismaClient()
+  async disconnect(): Promise<void> {
     await this.prismaClient.$disconnect()
   }
 
-  static async getClient(): Promise<PrismaClient> {
-    this.getPrismaClient()
+  getDbClient(): PrismaClient {
     return this.prismaClient
+  }
+
+  static getPrismaDbConnection(): IDbConnection<PrismaClient> {
+    if (!PrismaDbConnection.prismaDbConnection) {
+      PrismaDbConnection.prismaDbConnection = new PrismaDbConnection()
+    }
+    return PrismaDbConnection.prismaDbConnection
   }
 }

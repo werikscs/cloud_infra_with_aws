@@ -4,12 +4,13 @@ import { Router } from 'express'
 
 import { handleAppAuthorization } from '../middlewares/handleAppAuthorization.mdw'
 import { PrismaDbConnection } from '../PrismaDbConnection'
+import { UsuarioRepository } from '../UserRepository'
 
 export const usersRouter = Router()
 
 usersRouter.post('/', async (req, res) => {
-  const prismaClient = await PrismaDbConnection.getClient()
-  await PrismaDbConnection.connect()
+  const dbConnection = PrismaDbConnection.getPrismaDbConnection()
+  const userRepository = new UsuarioRepository(dbConnection)
   const hashedPassword = hashSync(req.body.password, 10)
   const userId = randomUUID()
   const userData = {
@@ -19,48 +20,39 @@ usersRouter.post('/', async (req, res) => {
     nickname: req.body.nickname,
     password: hashedPassword,
   }
-  const user = await prismaClient.user.create({
-    data: userData,
-  })
+  const user = await userRepository.save(userData)
   const userOutput = {
     userId: user.userId,
     email: user.email,
     username: user.username,
     nickname: user.nickname,
   }
-  await PrismaDbConnection.disconnect()
   return res.status(201).json(userOutput)
 })
 
 usersRouter.get('/', handleAppAuthorization, async (req, res) => {
-  const prismaClient = await PrismaDbConnection.getClient()
-  await PrismaDbConnection.connect()
-  const users = await prismaClient.user.findMany()
+  const dbConnection = PrismaDbConnection.getPrismaDbConnection()
+  const userRepository = new UsuarioRepository(dbConnection)
+  const users = await userRepository.findAll()
   const usersOutput = users.map((user) => ({
     userId: user.userId,
     email: user.email,
     username: user.username,
     nickname: user.nickname,
   }))
-  await PrismaDbConnection.disconnect()
   return res.status(200).json(usersOutput)
 })
 
 usersRouter.get('/:userId', handleAppAuthorization, async (req, res) => {
-  const prismaClient = await PrismaDbConnection.getClient()
-  await PrismaDbConnection.connect()
-  const user = await prismaClient.user.findUnique({
-    where: {
-      userId: req.params.userId,
-    },
-  })
+  const dbConnection = PrismaDbConnection.getPrismaDbConnection()
+  const userRepository = new UsuarioRepository(dbConnection)
+  const user = await userRepository.findByUserId(req.params.userId)
   const userOutput = {
     userId: user?.userId,
     email: user?.email,
     username: user?.username,
     nickname: user?.nickname,
   }
-  await PrismaDbConnection.disconnect()
   return res.status(200).json(userOutput)
 })
 

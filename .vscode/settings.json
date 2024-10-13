@@ -1,0 +1,7 @@
+{
+  "yaml.schemas": {
+    "https://www.artillery.io/schema.json": [
+      "file:///workspaces/cloud_infra_with_aws/tests/load/setup.yml"
+    ]
+  }
+}

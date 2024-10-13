@@ -7,18 +7,18 @@ import { createUserRoute, defaultUser, loginUserRoute } from './utils'
 const httpServer = request(app)
 
 describe('ROUTE: Users', async () => {
-  const prismaClient = await PrismaDbConnection.getClient()
+  const connection = PrismaDbConnection.getPrismaDbConnection()
 
   beforeAll(async () => {
-    await PrismaDbConnection.connect()
+    await connection.connect()
   })
 
   afterAll(async () => {
-    await PrismaDbConnection.disconnect()
+    await connection.disconnect()
   })
 
   beforeEach(async () => {
-    await prismaClient.user.deleteMany()
+    await connection.getDbClient().user.deleteMany()
   })
 
   describe('POST /users', () => {
